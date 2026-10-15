@@ -1,0 +1,308 @@
+<title>Blink of AI Ops Blueprint</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;700;800&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: single reading column (max 1080px), sections stacked in pipeline order, tables and diagrams scroll inside their own boxes */
+:root{
+  --bg:#f6f7f9; --surface:#ffffff; --fg:#151a24; --muted:#5b6474; --line:#dde1e8;
+  --accent:#2f4fd8; --accent-soft:#e6ebff; --warn:#b26a00; --warn-soft:#fff3dd; --ok:#1f7a4d; --ok-soft:#e2f4ea; --bad:#b3261e; --bad-soft:#fde7e5;
+  --display:"Schibsted Grotesk", "Segoe UI", system-ui, sans-serif;
+  --body:"Public Sans", "Segoe UI", system-ui, sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f131b; --surface:#171c26; --fg:#e8ebf2; --muted:#9aa3b5; --line:#2a3242;
+  --accent:#8ea2ff; --accent-soft:#1e2748; --warn:#f0b357; --warn-soft:#3a2a10; --ok:#6fd3a0; --ok-soft:#123224; --bad:#ff8a80; --bad-soft:#3d1a18; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f131b; --surface:#171c26; --fg:#e8ebf2; --muted:#9aa3b5; --line:#2a3242;
+  --accent:#8ea2ff; --accent-soft:#1e2748; --warn:#f0b357; --warn-soft:#3a2a10; --ok:#6fd3a0; --ok-soft:#123224; --bad:#ff8a80; --bad-soft:#3d1a18; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.6;padding-inline:16px;padding-block:32px 64px}
+.wrap{max-width:1080px;margin-inline:auto;display:flex;flex-direction:column;gap:48px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.2;margin:0}
+h1{font-size:clamp(28px,4.5vw,40px);font-weight:800;letter-spacing:-.02em}
+h2{font-size:22px;font-weight:700}
+h3{font-size:16px;font-weight:700}
+p{margin:0;max-width:68ch}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.muted{color:var(--muted)}
+section{display:flex;flex-direction:column;gap:16px}
+header{display:flex;flex-direction:column;gap:12px}
+.meta{display:flex;flex-wrap:wrap;gap:8px}
+.tag{font-family:var(--mono);font-size:12px;padding:3px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent);white-space:nowrap}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;min-width:0}
+.scroll{overflow-x:auto}
+pre.mermaid{margin:0;background:transparent;text-align:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.grid .panel{display:flex;flex-direction:column;gap:8px}
+.stream b{font-family:var(--display)}
+.rate{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:13px;color:var(--muted)}
+.pipeline{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.pipeline span{font-size:13px;padding:5px 10px;border-radius:6px;background:var(--surface);border:1px solid var(--line)}
+.pipeline i{color:var(--muted);font-style:normal}
+.pipeline .b{background:var(--warn-soft);border-color:transparent;color:var(--warn)}
+.pipeline .g{background:var(--ok-soft);border-color:transparent;color:var(--ok)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
+td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+tr.group td{font-family:var(--display);font-weight:700;background:var(--bg);color:var(--accent);padding-top:14px}
+td code,p code{font-family:var(--mono);font-size:12.5px}
+.req{font-family:var(--mono);font-size:11px;padding:1px 7px;border-radius:4px;background:var(--bad-soft);color:var(--bad)}
+.new{font-family:var(--mono);font-size:11px;padding:1px 7px;border-radius:4px;background:var(--accent-soft);color:var(--accent)}
+.brief ul,.list{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;max-width:75ch}
+.brief h3{margin-top:12px}
+.flag{display:inline-block;font-family:var(--mono);font-size:11px;padding:1px 7px;border-radius:4px;margin-right:6px}
+.flag.r{background:var(--bad-soft);color:var(--bad)} .flag.a{background:var(--warn-soft);color:var(--warn)} .flag.g{background:var(--ok-soft);color:var(--ok)}
+.example{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--warn)}
+.note{border-left:3px solid var(--warn);background:var(--warn-soft);padding:12px 16px;border-radius:0 8px 8px 0;max-width:75ch}
+ol.q{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:10px;max-width:75ch}
+ol.q b{font-family:var(--display)}
+.done{text-decoration:line-through;color:var(--muted)}
+</style>
+
+<div class="wrap">
+
+<header>
+  <span class="eyebrow">Blink of AI · Operations system · Draft 3</span>
+  <h1>How a brief becomes a delivered, paid asset</h1>
+  <p class="muted">The process map and system design for the account managers, editors and founders. The unit of work is the asset: every video, static and carousel, including each adapt and translation, gets its own ID, status, version history, delivery record and billing flag.</p>
+  <div class="meta">
+    <span class="tag">2 founders</span><span class="tag">2 account managers: Padma, Tejita</span><span class="tag">4 editors</span><span class="tag">≈ ₹12 L / month</span><span class="tag">Many clients, AMCs and others</span>
+  </div>
+</header>
+
+<section>
+  <span class="eyebrow">Where work comes from</span>
+  <h2>Three intake streams, one pipeline</h2>
+  <div class="grid">
+    <div class="panel stream"><b>Retainers</b><p>HDFC Tuesday Talking Point (TTP) and Weekend Bytes. Billed per week. The system creates each week's slot ahead of time, so a brief that hasn't arrived is visible instead of being forgotten.</p></div>
+    <div class="panel stream"><b>Series / projects</b><p>A batch of assets sold as one chunk. Tracked as an engagement with a total count, for example "14 of 20 delivered".</p></div>
+    <div class="panel stream"><b>Ad hoc</b><p>One-off videos, statics or carousels from AMCs and other clients. Each request becomes a brief with one or more assets.</p></div>
+  </div>
+  <p class="rate">Per asset: video ₹20,000 · carousel ₹8,000 · static ₹3,000 &nbsp;|&nbsp; Per week: TTP ₹45,000 · Weekend Bytes ₹64,000</p>
+</section>
+
+<section>
+  <span class="eyebrow">Process map</span>
+  <h2>Asset lifecycle, with owners</h2>
+  <div class="panel scroll">
+<pre class="mermaid">
+flowchart TD
+  IN1["Retainer week slot<br/>TTP · Weekend Bytes"] --> B
+  IN2["Series / project brief"] --> B
+  IN3["Ad hoc request<br/>WhatsApp · email"] --> B
+  B["Brief logged · asset IDs created<br/><i>Account manager + Claude</i>"] --> C{"All required<br/>fields present?"}
+  C -- "No" --> C1["Chase client for missing info<br/><i>AM · follow-up timer</i>"] --> C
+  C -- "Yes" --> D{"Script<br/>provided?"}
+  D -- "No" --> D1["Script written<br/><i>Content: founders</i>"] --> D2["Script approved<br/><i>Client</i>"] --> E
+  D -- "Yes" --> D2
+  E["Assigned to editor<br/><i>AM</i>"] --> F["In production<br/><i>Editor</i>"]
+  F --> G["Quality check before sending<br/><i>AM</i>"]
+  G -- "Fix" --> F
+  G -- "OK" --> H["Version shared with client reviewer<br/><i>Portal · WhatsApp · email</i>"]
+  H --> I{"Client<br/>reviewer"}
+  I -- "Changes" --> J["Revision v2, v3…<br/><i>Editor</i>"] --> G
+  I -- "Approved" --> K["Final master<br/>+ adapts and translations as child assets"]
+  K --> L["Delivered<br/><i>Blink of AI portal · OneDrive · Drive</i>"]
+  L --> M["Invoiced in Zoho<br/><i>Weekly retainer, per asset or series</i>"]
+  M --> N["Paid<br/><i>Accounts</i>"]
+</pre>
+  </div>
+</section>
+
+<section>
+  <span class="eyebrow">Status values</span>
+  <h2>Every asset sits in exactly one stage</h2>
+  <p class="muted">These become the columns on the account managers' board. Amber stages are waiting on the client, and the system times them.</p>
+  <div class="pipeline">
+    <span>Brief logged</span><i>→</i><span class="b">Info missing</span><i>→</i><span>Scripting</span><i>→</i><span class="b">Script with client</span><i>→</i><span>Ready to assign</span><i>→</i><span>In production</span><i>→</i><span>Quality check</span><i>→</i><span class="b">With client reviewer (vN)</span><i>→</i><span>Revising</span><i>→</i><span>Approved</span><i>→</i><span>Delivered</span><i>→</i><span class="b">Invoiced</span><i>→</i><span class="g">Paid</span>
+  </div>
+</section>
+
+<section>
+  <span class="eyebrow">Billing rules</span>
+  <h2>Three ways an asset gets billed</h2>
+  <div class="panel scroll" style="padding:0">
+  <table>
+    <thead><tr><th>Billing type</th><th>Rule</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td>Weekly retainer</td><td>Fixed fee per week delivered in the month. A month with 5 deliveries is billed 5 weeks.</td><td>TTP in a 5-week month: 5 × ₹45,000 = ₹2,25,000. Weekend Bytes in a 4-week month: 4 × ₹64,000 = ₹2,56,000.</td></tr>
+      <tr><td>Per asset</td><td>Rate card by asset type, unless the brief sets a custom price.</td><td>2 videos + 3 statics = ₹49,000</td></tr>
+      <tr><td>Child asset</td><td>Each adapt or translation is its own asset with a <b>Billable</b> switch. It is usually on, and set off when it's included in the master.</td><td>Hindi and Marathi translations of a video, billed separately</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="muted">At month end the system drafts the Zoho invoices: retainer weeks plus every delivered, billable, not-yet-invoiced asset. You review them and send.</p>
+</section>
+
+<section>
+  <span class="eyebrow">The asset record</span>
+  <h2>Fields captured for every asset</h2>
+  <p class="muted">Your ~20 parameters, grouped. Fields marked <span class="new">added</span> are ones I suggest adding for follow-ups, versions and billing. When an AM pastes a WhatsApp brief or forwards an email, Claude fills these in and flags what's missing.</p>
+  <div class="panel scroll" style="padding:0">
+  <table>
+    <thead><tr><th>Field</th><th>Values / example</th><th></th></tr></thead>
+    <tbody>
+      <tr class="group"><td colspan="3">Identity</td></tr>
+      <tr><td>Asset ID</td><td><code>HDFC-TTP-26W42-01</code>; a child asset adds a suffix, e.g. <code>-01-HI</code> for the Hindi translation</td><td><span class="new">added</span></td></tr>
+      <tr><td>Client · Engagement</td><td>Client name · TTP / Weekend Bytes / series name / ad hoc</td><td><span class="req">required</span></td></tr>
+      <tr><td>Parent asset</td><td>Set for adapts and translations</td><td><span class="new">added</span></td></tr>
+      <tr><td>Topic</td><td>Free text</td><td><span class="req">required</span></td></tr>
+      <tr><td>Part of an IP</td><td>Yes / No, and which IP</td><td></td></tr>
+      <tr><td>Source</td><td>Link to the WhatsApp message or email the brief came from</td><td><span class="new">added</span></td></tr>
+      <tr class="group"><td colspan="3">Spec</td></tr>
+      <tr><td>Asset type</td><td>Video · Static · Carousel</td><td><span class="req">required</span></td></tr>
+      <tr><td>Style</td><td>Motion graphics, live-action edit, illustrated…</td><td></td></tr>
+      <tr><td>Format · Dimension</td><td>9:16, 1:1, 16:9 · 1080×1920…</td><td><span class="req">required</span></td></tr>
+      <tr><td>Adapts</td><td>Created as child assets, one per size or variant</td><td></td></tr>
+      <tr><td>Duration</td><td>Videos only, in seconds</td><td></td></tr>
+      <tr><td>Number of slides</td><td>Carousels only</td><td></td></tr>
+      <tr><td>Co-branding</td><td>Needed / Not needed</td><td></td></tr>
+      <tr class="group"><td colspan="3">Content</td></tr>
+      <tr><td>Script</td><td>Provided by client · To be written by us. It always needs client approval before production.</td><td><span class="req">required</span></td></tr>
+      <tr><td>Creative brief</td><td>Free text</td><td></td></tr>
+      <tr><td>References</td><td>Links and files</td><td></td></tr>
+      <tr><td>Audio</td><td>AI voice · Client-provided recording · None</td><td></td></tr>
+      <tr><td>Translations</td><td>Languages; each one is created as a child asset</td><td></td></tr>
+      <tr><td>Disclaimers</td><td>Required text (SEBI / AMC disclaimers)</td><td></td></tr>
+      <tr><td>Remarks</td><td>Anything else</td><td></td></tr>
+      <tr class="group"><td colspan="3">Workflow</td></tr>
+      <tr><td>Deadline</td><td>Date and time</td><td><span class="req">required</span></td></tr>
+      <tr><td>Account manager · Editor</td><td>Padma / Tejita · one of 4 editors</td><td><span class="new">added</span></td></tr>
+      <tr><td>Client reviewer</td><td>Name of the person on the client side who approves</td><td><span class="req">required</span></td></tr>
+      <tr><td>Status · Current version</td><td>Stage from the pipeline above · v1, v2…</td><td><span class="new">added</span></td></tr>
+      <tr><td>Waiting since</td><td>When it entered an amber stage, for follow-up alerts</td><td><span class="new">added</span></td></tr>
+      <tr class="group"><td colspan="3">Delivery &amp; billing</td></tr>
+      <tr><td>Delivery platform</td><td>Blink of AI portal · OneDrive · Google Drive · WeTransfer · email</td><td><span class="req">required</span></td></tr>
+      <tr><td>Delivery link · date</td><td>Final link and when it was sent</td><td><span class="new">added</span></td></tr>
+      <tr><td>Billing type · Billable</td><td>Weekly retainer · Per asset · Series fee · Included in master</td><td><span class="new">added</span></td></tr>
+      <tr><td>Price</td><td>Defaults from the rate card, editable</td><td><span class="new">added</span></td></tr>
+      <tr><td>Zoho invoice · Paid</td><td>Invoice number · paid date</td><td><span class="new">added</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section>
+  <span class="eyebrow">Data model</span>
+  <h2>How the records connect</h2>
+  <div class="panel scroll">
+<pre class="mermaid">
+erDiagram
+  CLIENT ||--o{ ENGAGEMENT : has
+  CLIENT ||--o{ CONTACT : "reviewers, approvers"
+  ENGAGEMENT ||--o{ BRIEF : receives
+  BRIEF ||--|{ ASSET : "splits into"
+  ASSET ||--o{ ASSET : "adapts, translations"
+  ASSET ||--o{ VERSION : "v1, v2, final"
+  ASSET ||--o{ MESSAGE : "linked chat / email"
+  ASSET }o--|| PERSON : "AM, editor"
+  ASSET }o--o| INVOICE : "billed on"
+  CLIENT ||--o{ WHATSAPP_GROUP : "mapped to"
+  WHATSAPP_GROUP ||--o{ MESSAGE : contains
+</pre>
+  </div>
+</section>
+
+<section>
+  <span class="eyebrow">WhatsApp</span>
+  <h2>Capturing the chats</h2>
+  <ul class="list">
+    <li>A dedicated <b>Blink of AI Ops</b> number joins every client group. You map each group to a client once in the app, and from then on every message and file in that group is logged against that client.</li>
+    <li>Claude reads new messages and tags each one as a new brief, feedback on an asset, an approval, or general chat. New briefs become draft assets for an AM to confirm.</li>
+  </ul>
+  <p class="note"><b>Limit:</b> the bridge can only see chats the ops number is part of. Briefs sent to someone's personal WhatsApp stay invisible unless they're forwarded. Ask clients to use the group, and make "forward it to Ops" a team habit. One forward is enough for Claude to log the brief.</p>
+</section>
+
+<section>
+  <span class="eyebrow">Implementation</span>
+  <h2>A small custom app, with Claude on top</h2>
+  <p class="muted">Claude handles the thinking: turning briefs into assets, writing the morning summary, and answering questions. A web app and database hold the shared state that eight people and your clients see.</p>
+  <div class="panel scroll">
+<pre class="mermaid">
+flowchart TB
+  T["Team: ops.blinkofai.io<br/>board · assets · brief"] --> DB
+  CL["Clients: deliver.blinkofai.io<br/>preview · comment · approve · download"] --> DB
+  DB[("Database + logins<br/>Supabase Postgres")]
+  ST[("File storage<br/>Cloudflare R2")]
+  DB --- ST
+  WA["WhatsApp bridge<br/>always-on server"] --> DB
+  ZO["Zoho Invoice sync"] <--> DB
+  OL["Outlook sync"] --> DB
+  CLA["Claude<br/>connector for the team · brief parsing · 8 am summary"] <--> DB
+</pre>
+  </div>
+  <div class="panel scroll" style="padding:0">
+  <table>
+    <thead><tr><th>Piece</th><th>What it does</th><th>Suggested tech</th></tr></thead>
+    <tbody>
+      <tr><td>Database + logins</td><td>All records, sign-in with Google or Microsoft, and permissions by role</td><td>Supabase</td></tr>
+      <tr><td>Internal app</td><td>Board by stage, asset form, editor queues, daily brief. Works on phones.</td><td>Next.js on Vercel or Google Cloud Run</td></tr>
+      <tr><td>Client portal</td><td>Version previews, comments pinned to a timestamp or slide, one-click approval, final downloads</td><td>Same app, on a subdomain of your website</td></tr>
+      <tr><td>File storage</td><td>Every version and final, named by asset ID</td><td>Cloudflare R2 (no download fees, which matters for video)</td></tr>
+      <tr><td>WhatsApp bridge</td><td>Logs group messages and media</td><td>Node.js + Baileys on a small always-on server</td></tr>
+      <tr><td>Integrations</td><td>Invoices and payments; client emails</td><td>Zoho Invoice API · Microsoft Graph</td></tr>
+      <tr><td>Claude layer</td><td>A Blink of AI connector so the team can run the system in plain English, plus background jobs for brief parsing and the 8 am summary</td><td>Custom MCP server + Claude API</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <h3>Build order</h3>
+  <ol class="list">
+    <li><b>Weeks 1–2:</b> database, sign-in, asset form and board. AMs start logging every brief.</li>
+    <li><b>Weeks 3–4:</b> file storage with versions, and the client portal.</li>
+    <li><b>Weeks 5–6:</b> WhatsApp bridge, and Claude turning briefs into draft assets.</li>
+    <li><b>Weeks 7–8:</b> Zoho and Outlook sync, the 8 am brief, and the Claude connector.</li>
+  </ol>
+</section>
+
+<section>
+  <span class="eyebrow">Files</span>
+  <h2>Getting out of the Drive / OneDrive mess</h2>
+  <ul class="list">
+    <li><b>From go-live:</b> every new version is uploaded once, to the asset in the app. The app stores and names it (<code>HDFC-TTP-26W42-01_v2.mp4</code>), and the delivery step pushes finals to the client's OneDrive or Drive when they need it there.</li>
+    <li><b>Old files:</b> don't migrate everything. Import only active engagements and the last 3 months of finals. Leave the archive where it is and link to it from the client record.</li>
+    <li><b>Working files</b> (project files, raw footage) can stay on whichever drive the editors use. The app only needs the exported versions.</li>
+  </ul>
+</section>
+
+<section>
+  <span class="eyebrow">Daily output</span>
+  <h2>The morning brief, 8:00 am</h2>
+  <div class="panel brief">
+    <span class="example">Example layout, not real data</span>
+    <h3>Yesterday</h3>
+    <ul>
+      <li>New assets briefed, by client and type</li>
+      <li>Delivered, approved, and versions shared with clients</li>
+    </ul>
+    <h3>Needs attention today</h3>
+    <ul>
+      <li><span class="flag r">overdue</span>Assets past their deadline, and where they're stuck</li>
+      <li><span class="flag a">waiting on client</span>Versions or scripts with no reply past the limit, with the AM who owns the follow-up</li>
+      <li><span class="flag a">info missing</span>Briefs that can't start, and what's missing</li>
+      <li><span class="flag g">due today</span>Assets due today, by editor</li>
+    </ul>
+    <h3>Money</h3>
+    <ul><li>Delivered and billable but not invoiced, and invoices past their due date, from Zoho</li></ul>
+    <h3>Editor load</h3>
+    <ul><li>Active assets per editor, due this week</li></ul>
+  </div>
+</section>
+
+<section>
+  <span class="eyebrow">Decisions</span>
+  <h2>Settled so far</h2>
+  <ul class="list">
+    <li>The account managers proofread and check every version before the client sees it.</li>
+    <li>Retainers are billed per week delivered: 5 deliveries in a month means 5 weeks billed.</li>
+    <li>The apps run on subdomains of <code>blinkofai.io</code>: <code>ops.</code> for the team and <code>deliver.</code> for clients.</li>
+    <li>Built in-house with Claude Code. The spec and database schema are in the project repo.</li>
+  </ul>
+  <h2>Still open</h2>
+  <ol class="q">
+    <li><b>File volume.</b> Roughly how many GB of drafts and finals per month, and how long do you keep them?</li>
+    <li><b>Client rules.</b> Has HDFC or any other AMC required a specific delivery method or raised security requirements?</li>
+  </ol>
+</section>
+
+</div>
