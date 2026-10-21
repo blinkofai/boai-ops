@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Innovation Fund QC</title>
+<style>
+  :root {
+    --bg: #f6f7f9;
+    --card: #ffffff;
+    --text: #1c2230;
+    --muted: #5b6475;
+    --line: #e2e5ea;
+    --red: #c62828;
+    --red-bg: #fdecec;
+    --amber: #a15c00;
+    --amber-bg: #fff4e0;
+    --blue: #1f4fa3;
+    --blue-bg: #e8effb;
+    --green: #2e7d32;
+    --green-bg: #e8f5e9;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #12151b;
+      --card: #1b2029;
+      --text: #e7eaf0;
+      --muted: #9aa3b2;
+      --line: #2c3340;
+      --red: #ff8a80;
+      --red-bg: #3a1f22;
+      --amber: #ffc46b;
+      --amber-bg: #3a2e1a;
+      --blue: #8fb4ff;
+      --blue-bg: #1c2a44;
+      --green: #81c784;
+      --green-bg: #1c3320;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #12151b; --card: #1b2029; --text: #e7eaf0; --muted: #9aa3b2; --line: #2c3340;
+    --red: #ff8a80; --red-bg: #3a1f22; --amber: #ffc46b; --amber-bg: #3a2e1a;
+    --blue: #8fb4ff; --blue-bg: #1c2a44; --green: #81c784; --green-bg: #1c3320;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  main { max-width: 860px; margin: 0 auto; padding: 32px 16px 64px; }
+  h1 { font-size: 1.6rem; margin: 0 0 4px; }
+  h2 { font-size: 1.15rem; margin: 40px 0 6px; display: flex; align-items: center; gap: 10px; }
+  .lead { color: var(--muted); margin: 0 0 24px; }
+  .verdict {
+    background: var(--red-bg); color: var(--red);
+    border-radius: 12px; padding: 16px 18px; font-weight: 600; margin-bottom: 20px;
+  }
+  .verdict span { display: block; font-weight: 400; color: var(--text); margin-top: 4px; }
+  .facts {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px;
+  }
+  .fact { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+  .fact b { display: block; font-size: .78rem; color: var(--muted); font-weight: 500; }
+  .counts { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 0; }
+  .pill { border-radius: 999px; padding: 3px 12px; font-size: .85rem; font-weight: 600; }
+  .p-red { background: var(--red-bg); color: var(--red); }
+  .p-amber { background: var(--amber-bg); color: var(--amber); }
+  .p-blue { background: var(--blue-bg); color: var(--blue); }
+  .p-green { background: var(--green-bg); color: var(--green); }
+  .section-note { color: var(--muted); margin: 0 0 12px; }
+  .item {
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    padding: 14px 16px; margin-bottom: 10px; display: grid; grid-template-columns: 84px 1fr; gap: 4px 14px;
+  }
+  .time { color: var(--muted); font-size: .9rem; font-variant-numeric: tabular-nums; padding-top: 2px; }
+  .what { font-weight: 600; }
+  .fix { grid-column: 2; color: var(--muted); }
+  .fix::before { content: "Fix: "; font-weight: 600; color: var(--text); }
+  .red .what { color: var(--red); }
+  ul.plain { margin: 0; padding-left: 20px; }
+  ul.plain li { margin-bottom: 6px; }
+  footer { margin-top: 48px; color: var(--muted); font-size: .88rem; border-top: 1px solid var(--line); padding-top: 16px; }
+  @media (max-width: 520px) {
+    .item { grid-template-columns: 1fr; }
+    .fix { grid-column: 1; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>Quality check: HDFC Innovation Fund reel</h1>
+  <p class="lead">Sample video checked on 16 Oct 2026 against our draft HDFC rules.</p>
+
+  <div class="verdict">Not ready to send to HDFC.
+    <span>5 things must be fixed before it goes out, and 8 more should be fixed.</span>
+  </div>
+
+  <div class="facts">
+    <div class="fact"><b>Length</b>60 seconds</div>
+    <div class="fact"><b>Size</b>Vertical, 1080 × 1920</div>
+    <div class="fact"><b>Language</b>Hindi</div>
+    <div class="fact"><b>File</b>WhatsApp Video 2026-10-15 at 10.27.52 (1).mp4</div>
+  </div>
+
+  <div class="counts">
+    <span class="pill p-red">5 must fix</span>
+    <span class="pill p-amber">8 should fix</span>
+    <span class="pill p-blue">5 small things</span>
+    <span class="pill p-blue">4 need a person to check</span>
+  </div>
+
+  <h2><span class="pill p-red">Must fix</span></h2>
+  <p class="section-note">The video can't go to HDFC until these are fixed.</p>
+
+  <div class="item red">
+    <div class="time">51–60 s</div>
+    <div class="what">The mutual fund risk warning is missing.</div>
+    <div class="fix">Add HDFC's approved Hindi version of "Mutual fund investments are subject to market risks, read all scheme related documents carefully" to the end screen.</div>
+  </div>
+  <div class="item red">
+    <div class="time">51–60 s</div>
+    <div class="what">The riskometer is missing.</div>
+    <div class="fix">The ad names a fund, so add this month's riskometer for HDFC Innovation Fund.</div>
+  </div>
+  <div class="item red">
+    <div class="time">39–46 s</div>
+    <div class="what">"India is #3 in unicorns" has no source on screen.</div>
+    <div class="fix">Add a source line, like the one on the innovation ranking at the start.</div>
+  </div>
+  <div class="item red">
+    <div class="time">1–5 s</div>
+    <div class="what">"India #66 in 2015" may be wrong.</div>
+    <div class="fix">Check the Global Innovation Index. We think India was 81st in 2015 and 66th in 2016. If the number changes, the "▲28" changes too.</div>
+  </div>
+  <div class="item red">
+    <div class="time">24–26 s</div>
+    <div class="what">The shopping cart on the phone shows steak (red meat).</div>
+    <div class="fix">Swap it for something neutral, like vegetables.</div>
+  </div>
+
+  <h2><span class="pill p-amber">Should fix</span></h2>
+  <p class="section-note">Fix these before sending, or the account manager writes down why not.</p>
+
+  <div class="item">
+    <div class="time">Whole video</div>
+    <div class="what">The sound is too quiet.</div>
+    <div class="fix">Turn the overall volume up by about 7 dB so it matches other Reels.</div>
+  </div>
+  <div class="item">
+    <div class="time">51–60 s</div>
+    <div class="what">The HDFC Mutual Fund logo doesn't appear anywhere.</div>
+    <div class="fix">Add the logo to the end screen.</div>
+  </div>
+  <div class="item">
+    <div class="time">24–26 s</div>
+    <div class="what">Spelling mistake on the phone: "Order successfull!"</div>
+    <div class="fix">Change it to "Order successful!"</div>
+  </div>
+  <div class="item">
+    <div class="time">24–26 s</div>
+    <div class="what">Prices on the phone are in dollars ($).</div>
+    <div class="fix">Use rupees (₹).</div>
+  </div>
+  <div class="item">
+    <div class="time">25 s</div>
+    <div class="what">The phone shows an American address (Kentucky).</div>
+    <div class="fix">Use an Indian address, or blur it.</div>
+  </div>
+  <div class="item">
+    <div class="time">24 s</div>
+    <div class="what">"Google Pay" is shown as the payment app.</div>
+    <div class="fix">Remove other brands unless HDFC has said yes to them.</div>
+  </div>
+  <div class="item">
+    <div class="time">14–19 s, 31–32 s</div>
+    <div class="what">Text on the phone screens is jumbled, and the QR codes are random noise (AI artefacts).</div>
+    <div class="fix">Redo the phone screens with clean, readable text.</div>
+  </div>
+  <div class="item">
+    <div class="time">6–15 s</div>
+    <div class="what">English text in a Hindi video: "Software Update", "Updating…", "Software Updated", "Your car is now smarter".</div>
+    <div class="fix">Ask the account manager if this is on purpose. If not, translate it to Hindi.</div>
+  </div>
+
+  <h2><span class="pill p-blue">Small things</span></h2>
+  <p class="section-note">Tell the editor. These don't stop the video from going out.</p>
+
+  <div class="item">
+    <div class="time">40 s, 43 s</div>
+    <div class="what">As the medal turns, the "3" looks back to front for a moment.</div>
+  </div>
+  <div class="item">
+    <div class="time">22–28 s</div>
+    <div class="what">The car in the side shots looks different from the main car.</div>
+  </div>
+  <div class="item">
+    <div class="time">52–60 s</div>
+    <div class="what">The fund disclaimer text is small. It's readable, but tight on a phone.</div>
+  </div>
+  <div class="item">
+    <div class="time">51–53 s</div>
+    <div class="what">The end-screen text types in quickly. That's fine, because the screen stays up for 7 seconds.</div>
+  </div>
+  <div class="item">
+    <div class="time">—</div>
+    <div class="what">The file name doesn't follow our format. That's expected, because it hasn't been uploaded through the app yet.</div>
+  </div>
+
+  <h2><span class="pill p-blue">Needs a person to check</span></h2>
+  <ul class="plain">
+    <li><b>India map (33–46 s):</b> check that the northern border matches the official map of India.</li>
+    <li><b>Script:</b> we didn't have the approved script, so nobody has compared the words on screen with it yet.</li>
+    <li><b>Voice-over:</b> we couldn't tell if there is spoken audio. If there is, the risk warning may also need to be read out.</li>
+    <li><b>Length:</b> we don't know which project this is for (TTP or a one-off), so we didn't check the length.</li>
+  </ul>
+
+  <h2><span class="pill p-green">What's fine</span></h2>
+  <ul class="plain">
+    <li>Picture size, frame rate and file type are correct.</li>
+    <li>No black frames, glitches or silent gaps. The 7-second still at the end is intended.</li>
+    <li>The fund name "HDFC Innovation Fund" is spelled correctly.</li>
+    <li>The fund's own disclaimer is there and the wording is correct.</li>
+    <li>The innovation ranking at the start has its source.</li>
+    <li>No banned words like "guaranteed returns".</li>
+    <li>Text stays clear of the areas Instagram covers with buttons.</li>
+    <li>Hindi text displays correctly.</li>
+    <li>Car number plates are blank, and the glass car has no real brand logo.</li>
+  </ul>
+
+  <footer>
+    Some rules are still missing from our HDFC rulebook: the exact Hindi wording of the risk warning, how long it must stay on screen, the logo files and where the riskometer comes from. Once those are filled in, we can check these items in more detail.
+  </footer>
+</main>
+</body>
+</html>

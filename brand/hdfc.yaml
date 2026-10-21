@@ -1,0 +1,256 @@
+# HDFC Mutual Fund — QC rulebook
+#
+# Read by the QC plugin before it checks any HDFC asset. Each rule has an id
+# (used in qc findings), a severity and how it is checked:
+#   auto   = deterministic (ffprobe / ffmpeg / image metadata), no judgement
+#   vision = Claude looks at frames / slides and the transcript
+#   human  = shown on the checklist for the AM to tick; the plugin can't decide
+#
+# Severities: blocker (cannot go to client), major (fix before client unless
+# the AM overrides with a note), minor (mention to editor, can ship).
+#
+# FILL: marks a gap for you to fill. TODO(confirm): a value I seeded from the
+# sample video or general knowledge that needs checking against HDFC's own
+# guide or their compliance team.
+
+client: HDFC
+client_name: HDFC Mutual Fund
+version: 0.2                     # bump when rules change; stored on every QC run
+# 0.2: rules from Khushi's feedback in the "Khushi x BOAI" WhatsApp group,
+# Mar–Oct 2026. Dates in comments (dd/mm) point to the message that set the rule.
+
+# ---------------------------------------------------------------- brand ----
+brand:
+  logo:
+    required_on: [video_end_card, static, carousel_first_slide, carousel_last_slide]
+    files: []                    # FILL: R2 keys / paths of approved logo lockups
+    min_width_px: null           # FILL
+    clear_space: null            # FILL: e.g. "height of the H on all sides"
+    allowed_backgrounds: []      # FILL: which lockup on dark vs light
+  colours:
+    # TODO(confirm): picked from the sample's end card, not from a brand guide
+    primary_navy: "#1B2A5E"
+    accent_red: "#ED232A"
+    white: "#FFFFFF"
+    tolerance_delta_e: 6         # how far a sampled colour may drift
+  fonts:
+    # TODO(confirm): what the sample appears to use
+    latin_heading: Montserrat Bold
+    latin_body: null             # FILL
+    devanagari: null             # FILL: e.g. Mukta / Noto Sans Devanagari
+    other_scripts: {}            # FILL: font per language (gu, mr, ta, te, bn, kn...)
+  scheme_names:
+    # Exact spelling and casing. Copy is checked against this list.
+    - HDFC Innovation Fund
+    # Schemes we've made content for. TODO(confirm) each against the latest
+    # factsheet: names were corrected in the chat more than once (15/07).
+    - HDFC Flexi Cap Fund
+    - HDFC Large Cap Fund
+    - HDFC Mid Cap Fund          # TODO(confirm): factsheet may say "Mid-Cap Opportunities"
+    - HDFC Small Cap Fund
+    - HDFC Focused Fund          # "HDFC Focused fund" said only once in VO (16/04)
+    - HDFC Value Fund
+    - HDFC Balanced Advantage Fund
+    - HDFC Banking & Financial Services Fund
+    - HDFC Income Plus Arbitrage Active FoF
+    - HDFC Gold ETF
+    - HDFC Silver ETF
+    - HDFC Nifty 50 ETF          # an ETF, not an index fund; "Nifty 50 index" when the script means the index (16/07)
+    - HDFC Nifty Bank ETF
+    - HDFC Nifty Small Cap 250 ETF   # whole name in the same weight, "250" not bolder (16/07)
+    # FILL: every new scheme you make content for
+  word_forms:
+    # Spellings Khushi corrected (16/07). Checked like scheme names.
+    "Large Cap": ["Largecap", "LargeCap"]
+    "Long term": ["Longterm"]
+    "Performance": ["Perfor mance"]
+  forbidden_terms:
+    # Words SEBI/AMFI or HDFC don't allow in MF ads. TODO(confirm) with HDFC.
+    - guaranteed returns
+    - assured returns
+    - risk-free
+    - safe investment
+    - best fund
+    - no. 1 fund
+    # Rejected by HDFC in review:
+    - proven                     # VO and supers (09/04)
+    - greatly increased          # silver ETF, raised three times (14/07, 15/07)
+    - come invest with confidence   # use the CTA below instead (04/05)
+    - strong                     # "use the word better" (04/05)
+  unhedged_claims:
+    # Growth or return statements must be hedged: "may grow", "potential".
+    # Flagged when a growth verb appears without one of the hedges.
+    hedges: [may, potential, could, aims to]
+    examples_rejected:
+      - "grow your wealth"       # → "may grow your wealth" (27/03)
+      - "build wealth every month"   # → "wealth potential" (15/07)
+      - "saal mein ek baar review…"  # read as a promise (19/10)
+    track_record_claims: compliance_only   # "29 years", "proven" removed (09/04)
+  third_party_brands:
+    # Brands that may appear on screen. Anything else visible (app logos,
+    # payment brands, car makers) is flagged for the AM.
+    allowed: [UPI]               # TODO(confirm): is the UPI mark OK to show?
+    never: []                    # FILL: competitors, other AMCs / banks / fintechs
+
+# ------------------------------------------------------------ compliance ----
+compliance:
+  standard_warning:
+    # SEBI/AMFI standard warning. TODO(confirm) exact wording, display time
+    # and voice-over rule with HDFC compliance before relying on these.
+    text:
+      en: "Mutual Fund investments are subject to market risks, read all scheme related documents carefully."
+      hi: null                   # FILL: HDFC's approved Hindi wording
+      # FILL: other languages
+    video:
+      on_screen: required
+      min_seconds: null          # FILL
+      voice_over: null           # FILL: required / not required / only if > N sec
+    static: required
+    carousel: last_slide         # FILL: or every slide?
+    min_text_height_px: null     # FILL: legibility floor at 1080 wide
+  riskometer:
+    required_when: scheme_specific   # any asset that names a scheme
+    image_source: null           # FILL: where the current month's riskometer lives
+    must_match_month: true
+  scheme_disclaimers:
+    # Scheme-specific lines that must appear when the scheme is named.
+    HDFC Innovation Fund:
+      hi: "थीम-आधारित होने के कारण, यह योजना संकेंद्रण और थीम से जुड़े विशेष जोखिमों के चलते, विविधीकृत इक्विटी म्यूचुअल फंड्स की तुलना में अधिक जोखिम रखती है।"
+      en: null                   # FILL
+  data_claims:
+    source_required: true        # every number / ranking / statistic needs a source on screen
+    source_format: "Source: {name}"   # TODO(confirm) format and placement
+    as_of_date_required: null    # FILL: does HDFC want "as of {date}" on stats?
+  performance_claims: never_without_compliance  # past returns need the full SEBI format
+  ai_generated_content:
+    disclose: null               # FILL: does HDFC need an "AI-generated visuals" note?
+
+  # ---- added in 0.2 from the review history ----
+  sebi_registration:
+    # Missing on 10/07, 16/07, 22/09, 01/10 and 19/10: the most repeated miss.
+    required_on: [video, static, carousel, gif, pdf]
+    exempt: [thumbnail]
+    text: null                   # FILL: exact "HDFC Mutual Fund SEBI Reg. No. …" line
+    timing: with_or_after_visual # must not appear before the visual it belongs to (16/07)
+  disclaimer_format:
+    mf_statutory_one_line: true  # "in one line in the footer" (06/07, 01/10, 02/10)
+    min_font_pt: 8               # at the delivered size (02/10)
+    disclaimer_slate_on: [carousel, pdf]   # carousels and PDFs end with a disclaimer slate (01/10)
+    statics: general_14_word_with_riskometer   # 03/07
+    copy_word_for_word: true     # from the latest version HDFC sent; old Mitra/KYC text reused on 01/10
+    kyc_disclaimer: null         # FILL: current KYC disclaimer text
+    views_expressed: end_of_video   # webinars (11/06)
+    illustration: copy_full_from_pdf   # WB video: whole disclaimer from the PDF, not a short version (19/10)
+    not_on_thumbnail: true       # 22/04
+    footnote_symbols_distinct: true    # one * per meaning; use ^ etc. for the second (10/04)
+  as_on_date:
+    # Every number, NAV, unit price, riskometer and performance table carries
+    # an "as on" date, and it must be the date HDFC gave for that asset.
+    required: true
+    source: client_message       # never assume: dates changed 27/02 → 31/03 within one job (01/04, 09/04)
+    riskometer_month: latest_factsheet   # e.g. "July 31st" (18/08), "31st August 2026" (22/09)
+    release_date_with_riskometer: true   # 13/07, 15/07
+  product_labelling:
+    # Riskometer, product label and scheme type all belong to the same scheme.
+    same_scheme: true            # silver riskometer next to gold label (13/07)
+    only_schemes_named: true     # remove FoF label when only the ETF is named (13/07)
+    scheme_type_required: true   # 28/04, 15/07
+    risk_text_matches_meter: true   # meter "moderate", text "high" (28/09)
+    keep_original_colours: true  # riskometer colours changed in a GIF (22/07)
+    source: client_supplied_then_confirm   # don't copy from a factsheet without Khushi confirming (16/07)
+  numbers:
+    rupee_symbol: required       # "₹10,000", "₹19.94 Cr" (09/04)
+    vo_matches_super: true       # "₹10,000" in audio too (09/04); unit price VO ≠ screen (15/07)
+    sip_performance_in: lakhs    # 09/04
+    unscripted_numbers_in_visuals: blur_or_xxxx   # "₹96540/kg" in stock imagery (13/07, 15/07)
+    no_crypto_coins: true        # coins read as bitcoin → put ₹ on them (08/07)
+  sip_full_form:
+    required_on_first_use: true  # "Systematic Investment Plan"; missed 10/04 and 13/07
+  performance_table:
+    format: sebi_prescribed
+    headers_without_percent: [Returns, Benchmark returns, Additional returns]   # % in the cells, not the header (10/04)
+    same_font_weight: true       # 10/04
+    financial_year_end_disclaimer: true   # 10/04
+  cta:
+    text: "Consider investing in {full scheme name}"   # 04/05, 10/07
+    search_super: [second_last_screen, end_slate]      # with search icon (10/07, 15/07)
+  copy_source:
+    sebi_mandate_posts: emailer_wording_only   # reordering the approved words was rejected (15/10)
+    implied_return_visuals: never   # no rising arrows or growth graphs without data (07/05, 01/10)
+
+# --------------------------------------------------------- deliverables ----
+formats:
+  video:
+    aspect_ratios: ["9:16"]      # FILL: also 1:1, 16:9, 4:5?
+    resolution: 1080x1920
+    fps: [25, 30]
+    codec: h264
+    audio:
+      codec: aac
+      sample_rate: 48000
+      integrated_lufs: -14       # social platforms; sample measured -21.2
+      lufs_tolerance: 2
+      true_peak_max_dbtp: -1
+    max_duration_sec: null       # FILL per engagement below
+    safe_zone_px:                # Reels/Shorts UI overlays; keep text out of these
+      top: 220
+      bottom: 380
+      right: 120
+  static:
+    sizes: [1080x1080, 1080x1350]   # FILL
+    file_types: [png, jpg]
+    max_file_mb: null            # FILL
+  carousel:
+    size: 1080x1350              # FILL
+    min_slides: null             # FILL
+    max_slides: 10
+
+languages:
+  default: hi
+  allowed: [hi, en, bn, gu, kn, ml, mr, pa, ta, te]   # Weekend Bytes runs in all 9 + English
+  rules:
+    - id: LANG-SCRIPT
+      text: Devanagari must render without broken conjuncts or missing matras
+    - id: LANG-MIXED
+      text: English scheme names stay in Latin script inside Hindi copy
+    - id: LANG-ENGLISH-BASE
+      # Regional fund videos: only the VO changes (21/04).
+      text: Supers, riskometer, product labelling and end slates stay in English
+    - id: LANG-HINDI-DOCS
+      # Hindi takeaways PDF (05/06): text fully Hindi, disclaimer stays English.
+      text: Body text fully in the target language; disclaimer stays in English
+    - id: LANG-WB-VIDEO
+      # Weekend Bytes Hindi video (17/10, 19/10) is the exception: MF disclaimer also in Hindi.
+      text: MF disclaimer shown and voiced in Hindi
+    - id: LANG-REVIEWED
+      text: Every translation approved by a native reviewer before it is sent
+
+# --------------------------------------------------------- engagements ----
+# Overrides per engagement. Anything not set inherits from above.
+engagements:
+  TTP:                           # Tuesday Talking Point
+    format: video
+    duration_sec: [45, 75]       # TODO(confirm)
+    end_card: required
+    intro_bumper: null           # FILL
+  WB:                            # Weekend Bytes — FILL: confirm engagement code
+    format: null                 # FILL
+    duration_sec: null           # FILL
+    source: compliance_approved_pdf   # 01/10: a non-final PDF with rising arrows was used
+    banner_adapts: from_client_ai_files   # sizes changed per week; the .ai files win (16/10)
+    language_rules: [LANG-HINDI-DOCS, LANG-WB-VIDEO, LANG-REVIEWED]
+  FUND_VIDEO:                    # fund performance / ETF / FD videos
+    flow: [sip_example, why_invest, performance_tables]   # 14/04
+    max_blank_sec: 2             # 5–7 s with nothing on screen, first 6 s black (16/07)
+    co_brand_variants: [HDFC Securities]   # separate folder (20/04)
+    language_rules: [LANG-ENGLISH-BASE, LANG-REVIEWED]
+
+# ------------------------------------------------------------- delivery ----
+delivery:
+  channel: email_same_trail      # "send on mail" was asked dozens of times
+  links: sharepoint              # HDFC can't open Google Drive (14/10)
+  cc: [tejitha, padma]           # 30/09
+  file_names: "{scheme}_{format}_{lang}_v{N}"   # TODO(confirm); "name them correctly" (10/04, 15/07)
+  gif_max_mb: 10                 # 22/07
+  x_max_images: 4                # more slides than that → also send a GIF (01/10)
+  static_sizes: [1x1, 4x5]       # JPEG + PDF (+ GIF for carousels) (21/07)
