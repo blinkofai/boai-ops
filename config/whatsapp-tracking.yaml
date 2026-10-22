@@ -1,0 +1,65 @@
+# WhatsApp chats the bridge should log. Anything not listed here is ignored.
+#
+# Picked on 2026-10-22 from the full chat list (191 groups, 734 direct chats).
+# Personal groups, OFD / TLH / Amaltash / D!JAN film work, Dnyanankur and
+# untagged direct chats were left out on purpose.
+#
+# Fields:
+#   jid     WhatsApp id. Group names change, JIDs don't, so match on this.
+#   client  clients.code once the clients table is seeded. null = internal.
+#   feed    pipeline   = messages can create / update assets (paste-a-brief)
+#           brief_only = only summarised in the daily brief
+#   redact  patterns stripped before a message is stored
+#
+# TODO(confirm): client codes are my guesses until clients are seeded.
+
+clients:
+  - { jid: 120363405650770677@g.us, name: "HDFC x BlinkofAI",            client: HDFC, feed: pipeline }
+  - { jid: 120363424985846087@g.us, name: "Moksha x BOAI",               client: HDFC, engagement: TTP, feed: pipeline }
+  - { jid: 120363408955463758@g.us, name: "Khushi x BOAI",               client: HDFC, engagement: WB,  feed: pipeline }
+  - { jid: 120363424764608023@g.us, name: "Aastha HDFCMF x BOAI",        client: HDFC, feed: pipeline }
+  - { jid: 120363426224543790@g.us, name: "HdFC gandhi Jayanti - internal", client: HDFC, feed: pipeline }
+  - { jid: 120363429162135567@g.us, name: "BlinkofAI x ABSL AMC",        client: ABSL, feed: pipeline }
+  - { jid: 120363407972479340@g.us, name: "Parag Jpearls x BOAI Video",  client: JPEARLS, feed: pipeline }
+  - { jid: 120363384204143188@g.us, name: "Jpearls<>blink of ai video",  client: JPEARLS, feed: pipeline }
+  - { jid: 120363427929475367@g.us, name: "BOAI X Intangles",            client: INTANGLES, feed: pipeline }
+  - { jid: 120363420417483483@g.us, name: "Intangles AI Video",          client: INTANGLES, feed: pipeline }
+  - { jid: 120363430125963524@g.us, name: "TataMF x BlinkofAI",          client: TATAMF, feed: pipeline }
+  - { jid: 120363414357502111@g.us, name: "Branding guru ho ja shuru",   client: OBD, feed: pipeline }
+  # Quiet or new clients: no recent history, logged so they're caught when active.
+  - { jid: 120363430391869473@g.us, name: "BlinkofAI x ICICI Prudential MF", client: ICICIPRU, feed: pipeline }
+  - { jid: 120363425024798001@g.us, name: "Groww AMC x BlinkofAI",       client: GROWW, feed: pipeline }
+  - { jid: 120363407434095799@g.us, name: "TheWealthCompany x BlinkofAI", client: TWC, feed: pipeline }
+  - { jid: 120363427371946481@g.us, name: "TheWealthCompany x BlinkofAI", client: TWC, feed: pipeline }
+  - { jid: 120363349764344947@g.us, name: "[BlinkofAI x Kankatala] Performance Creatives", client: KANKATALA, feed: pipeline }
+  - { jid: 120363404488300365@g.us, name: "ISB X BlinkofAI",             client: ISB, feed: pipeline }
+  - { jid: 120363420605403642@g.us, name: "Kotak X IFN l Thumbstopper Videos", client: IFN, feed: pipeline }
+  - { jid: 120363425025858355@g.us, name: "Thomas Scott X IFN | Catalogue Images with BOAI", client: IFN, feed: pipeline }
+  - { jid: 120363360780985100@g.us, name: "OYO India X BlinkofAI",       client: OYO, feed: pipeline }
+  - { jid: 120363373270758881@g.us, name: "BlinkofAI X Allo",            client: ALLO, feed: pipeline }
+  - { jid: 120363369336294611@g.us, name: "BlinkofAI SiriSampada",       client: SIRISAMPADA, feed: pipeline }
+  - { jid: 120363347607075063@g.us, name: "PRISM x BlinkofAI",           client: PRISM, feed: pipeline }
+  - { jid: 120363421224017665@g.us, name: "Coggi X BlinkofAI",           client: COGGI, feed: pipeline }
+
+internal:
+  - { jid: 120363315943462282@g.us, name: "Editors",              feed: pipeline }
+  - { jid: 120363431963473344@g.us, name: "BoAi_Internal_Design", feed: pipeline }
+  - { jid: 120363421565270365@g.us, name: "QC",                   feed: pipeline }
+  - { jid: 120363409817132962@g.us, name: "Translation",          feed: pipeline }
+  - { jid: 120363408696522039@g.us, name: "BlinkofAI Scripts",    feed: pipeline }
+  - { jid: 120363424982050778@g.us, name: "Payments",             feed: brief_only }
+  - { jid: 120363420698235087@g.us, name: "Accounts_BlinkofAI",   feed: brief_only, redact: [otp] }  # GST portal OTPs are posted here
+  - { jid: 120363418689025085@g.us, name: "Prospects",            feed: brief_only }
+  - { jid: 120363305084890204@g.us, name: "Sales",                feed: brief_only }
+  - { jid: 120363388068049665@g.us, name: "Hiring",               feed: brief_only }
+
+# 1:1 chats with the team. WhatsApp shows some only by @lid id, not phone.
+team_dms:
+  - { jid: 919503959358@s.whatsapp.net, name: "Sandeep M" }
+  - { jid: 254562745233484@lid,         name: "Padma Venkatraman" }
+  - { jid: 919100956155@s.whatsapp.net, name: "Tejitha Gummadi" }
+  - { jid: 37546704826534@lid,          name: "Rohith" }
+  - { jid: 83743339475043@lid,          name: "Abey Biju" }
+  - { jid: 919494252617@s.whatsapp.net, name: "Sathvika" }
+  - { jid: 919631083004@s.whatsapp.net, name: "Mihir" }
+  - { jid: 919960431024@s.whatsapp.net, name: "Rutuja Tambe" }
