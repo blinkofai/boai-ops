@@ -1,0 +1,55 @@
+# Who is who on WhatsApp. The bridge uses this to name senders and to tell
+# our replies from client messages (response times, waiting-on-client).
+#
+# Built 2026-10-22 from tracked chats + saved contacts, confirmed by Sagar.
+# WhatsApp now often sends an @lid id instead of the phone number; `lid`
+# lists those aliases so both resolve to the same person.
+#
+# side:   team | client | vendor | partner | other
+# client: clients.code (same codes as whatsapp-tracking.yaml)
+
+team:
+  - { name: Sagar Karpe,       phone: "+919420839207", lid: "189348028883040", role: founder }
+  - { name: Sagar (notes),     phone: "+918956739207", lid: "48000621658157",  role: founder, note: "Sagar's second number, used as a dump. Not a person to track." }
+  - { name: Sandeep M,         phone: "+919503959358", role: founder }
+  - { name: Padma Venkatraman, phone: "+917032737317", lid: "254562745233484", role: account_manager }
+  - { name: Tejitha Gummadi,   phone: "+919100956155", lid: "126340825120967", role: account_manager }
+  - { name: Faisal,            phone: "+918919257661", lid: "84856356741130",  role: editor }
+  - { name: Rabiya,            phone: "+916300091667", lid: "27037658013869",  role: editor,
+      old_numbers: [{ phone: "+917799290601", lid: "58403082776602", until: 2026-10-16 }] }
+  - { name: Rohith,            phone: "+919182260729", lid: "37546704826534",  role: editor }
+  - { name: Abey Biju,         phone: "+919880564572", lid: "83743339475043",  role: editor }
+  - { name: Mihir,             phone: "+919631083004", role: editor }  # TODO(confirm): role
+
+former_team:
+  - { name: Sathvika, phone: "+919494252617", note: "Left Blink of AI. Some old Jpearls open files are with her." }
+
+clients:
+  - { name: Nandini,            phone: "+917738214980", lid: "20560159486092", client: HDFC, note: "TTP reviewer" }
+  - { name: Moksha Chandan,     phone: "+919869370070", client: HDFC, note: "TTP audio and scripts" }
+  - { name: Khushi Surana,      phone: "+918949454769", lid: "15702568218859", client: HDFC, note: "Weekend Bytes" }
+  - { name: Neha,               phone: "+919930860093", lid: "88128484311231", client: HDFC }
+  - { name: Vishal Kapoor,      phone: "+919821504777", client: HDFC }
+  - { name: Harsh Rajesh Desai, phone: "+919619618464", client: HDFC }
+  - { name: Hanisha,            phone: "+919869333495", client: HDFC }
+  - { name: Parag,              phone: "+919951800070", lid: "91040874795118", client: JPEARLS, note: "Main contact for Jpearls" }
+  - { name: Naina Sharma,       phone: "+918888566523", client: INTANGLES }
+  - { name: Sagar (Tata MF),    phone: "+919076732022", client: TATAMF }
+  - { name: unknown,            phone: "+918657594140", client: TATAMF }   # FILL: name
+  - { name: unknown,            phone: "+916396413841", client: ABSL }     # FILL: name (most active ABSL contact)
+  - { name: unknown,            phone: "+919920081123", client: ABSL }     # FILL: name
+  - { name: unknown,            phone: "+919820932909", client: ABSL }     # FILL: name
+  - { name: Skye,               phone: "+918056075727", client: GROWW }
+  - { name: Adil M Bakhshi,     phone: "+919920010203", client: ICICIPRU, note: "ICICI not an active client right now" }
+
+vendors:
+  - { name: Poojitha (S&S Co), phone: "+916303982112", note: "Accountants" }
+  - { name: Bharath (S&S Co),  phone: "+918897882576", note: "Accountants" }
+
+partners:
+  - { name: Sandip Dhamane, phone: "+919921160001", note: "Mentoring sales; exploring a partnership. Not team." }
+
+other:
+  # OBD branding project (Branding guru group). Sagar's other venture, not Blink of AI for now.
+  - { name: Parikshit (Paru), phone: "+918767326611", note: "Sagar's younger brother, works on OBD" }
+  - { name: Rushi (Dada),     phone: "+919550501094", note: "Sagar's older brother, works on OBD" }
