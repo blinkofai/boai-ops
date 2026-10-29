@@ -1,0 +1,37 @@
+name: Rules check
+
+# Several people edit the QC rules. Stop a broken rulebook from reaching the team.
+on:
+  push:
+    paths: ["brand/**", "plugins/**", ".claude-plugin/**"]
+  pull_request:
+    paths: ["brand/**", "plugins/**", ".claude-plugin/**"]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install pyyaml
+      - name: Rulebooks are valid YAML
+        run: |
+          python - <<'EOF'
+          import pathlib, sys, yaml
+          bad = 0
+          for p in sorted(pathlib.Path("brand").glob("*.yaml")):
+              try:
+                  yaml.safe_load(p.read_text(encoding="utf-8"))
+                  print(f"ok   {p}")
+              except yaml.YAMLError as e:
+                  print(f"FAIL {p}: {e}")
+                  bad += 1
+          sys.exit(bad)
+          EOF
+      - name: Plugin manifests are valid JSON
+        run: |
+          python -m json.tool .claude-plugin/marketplace.json > /dev/null
+          python -m json.tool plugins/boai-qc/.claude-plugin/plugin.json > /dev/null
+          python -m json.tool plugins/boai-qc/hooks/hooks.json > /dev/null

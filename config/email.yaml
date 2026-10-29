@@ -1,0 +1,14 @@
+# Which Outlook mail the dashboard imports. Only mail where someone on the
+# thread is from one of these domains comes in; everything else (newsletters,
+# tools, personal) is skipped.
+#
+# Run `pnpm outlook:domains` in apps/web to list the domains in your recent
+# mail, then map the client ones here.
+
+mailbox: sagar@blinkofai.io
+team_domains: [blinkofai.io]
+
+client_domains: {}
+  # FILL, e.g.
+  # hdfcfund.com: HDFC
+  # adityabirlacapital.com: ABSL

@@ -1,0 +1,9 @@
+{
+  "name": "boai-qc",
+  "version": "0.1.0",
+  "description": "QC for Blink of AI assets: checks videos, statics and carousels against the client rulebook (brand/) and the source copy, writes the QC run report, and keeps the shared rules in sync with git.",
+  "author": {
+    "name": "Blink of AI"
+  },
+  "keywords": ["qc", "compliance", "hdfc", "video"]
+}

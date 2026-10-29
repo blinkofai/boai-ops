@@ -121,6 +121,8 @@ compliance:
     source_required: true        # every number / ranking / statistic needs a source on screen
     source_format: "Source: {name}"   # TODO(confirm) format and placement
     as_of_date_required: null    # FILL: does HDFC want "as of {date}" on stats?
+    sources_line: copy_full_from_source   # TTP: the whole "Sources:" line from the article, not only the sources the video uses (29/10)
+    current_value_over_milestone: true    # say the latest figure (55% in Sept 2026), not the target it passed (50%) (29/10)
   performance_claims: never_without_compliance  # past returns need the full SEBI format
   ai_generated_content:
     disclose: null               # FILL: does HDFC need an "AI-generated visuals" note?
@@ -129,9 +131,14 @@ compliance:
   sebi_registration:
     # Missing on 10/07, 16/07, 22/09, 01/10 and 19/10: the most repeated miss.
     required_on: [video, static, carousel, gif, pdf]
-    exempt: [thumbnail]
-    text: null                   # FILL: exact "HDFC Mutual Fund SEBI Reg. No. …" line
+    exempt: [thumbnail]          # TODO(confirm): "may be not needed" (Sagar, 29/10); the WB thumbnail template has it (22/10)
+    text: "HDFC Mutual Fund: SEBI Registration Number: MF/044/00/6"   # TTP article footer, 27/10
     timing: with_or_after_visual # must not appear before the visual it belongs to (16/07)
+    # Where it goes (Sagar, 29/10):
+    video: first_5_sec           # on screen for the first 5 s after the opening title/thumbnail frame;
+                                 # not needed for the full video or on the end disclaimer
+    carousel: first_slide_only
+    static: every_image
   disclaimer_format:
     mf_statutory_one_line: true  # "in one line in the footer" (06/07, 01/10, 02/10)
     min_font_pt: 8               # at the delivered size (02/10)
