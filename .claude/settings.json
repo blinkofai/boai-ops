@@ -1,0 +1,13 @@
+{
+  "extraKnownMarketplaces": {
+    "boai": {
+      "source": {
+        "source": "github",
+        "repo": "blinkofai/boai-ops"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "boai-qc@boai": true
+  }
+}

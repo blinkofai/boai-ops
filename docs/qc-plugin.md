@@ -35,15 +35,19 @@ The QC plugin checks an asset against the client rulebook and the source copy, a
    ```bash
    git clone https://github.com/blinkofai/boai-ops.git
    ```
-3. In Claude Code desktop, open the cloned folder as the session folder.
-4. Add the plugin. In the session, type:
+3. In Claude Code desktop, start a new session and pick the cloned `boai-ops` folder.
+4. When Claude Code asks, trust the folder, then accept the install of the `boai` marketplace and the `boai-qc` plugin. The repo's `.claude/settings.json` asks for these.
+5. Start one more new session in the folder. Type "check the QC plugin is set up". Claude should say the rules are up to date and that `/boai-qc:qc` is available.
+
+If step 4 shows no prompt, type these in a session instead:
    ```
    /plugin marketplace add blinkofai/boai-ops
    ```
    ```
    /plugin install boai-qc@boai
    ```
-5. Start a new session in the folder. Check that the first message from the hook says "Rules are up to date".
+
+Git needs your GitHub login (the account with access to `blinkofai/boai-ops`). If `git clone` asks you to sign in, use that account.
 
 ## Use it
 
