@@ -33,12 +33,12 @@ The QC plugin checks an asset against the client rulebook and the source copy, a
    ```
 2. Clone the repo:
    ```bash
-   git clone https://github.com/FILL-OWNER/FILL-REPO.git
+   git clone https://github.com/blinkofai/boai-ops.git
    ```
 3. In Claude Code desktop, open the cloned folder as the session folder.
 4. Add the plugin. In the session, type:
    ```
-   /plugin marketplace add FILL-OWNER/FILL-REPO
+   /plugin marketplace add blinkofai/boai-ops
    ```
    ```
    /plugin install boai-qc@boai
